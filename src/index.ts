@@ -32,10 +32,9 @@ export class BigNumber {
     return this
   }
 
-  public toInteger(): BigNumber {
+  public trunc(): string {
     const parts: string[] = this._n.split('.')
-    this._n = parts[0]
-    return this
+    return parts[0]
   }
 
   public compare(number: string | number | BigNumber): -1 | 0 | 1 {
