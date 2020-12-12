@@ -25,8 +25,8 @@ jobs:
       - name: Run tests & coverage
         run: yarn coverage
       - steps:
-        - uses: actions/checkout@master
-        - uses: codecov/codecov-action@v1
+        - name: Codecov upload
+          uses: codecov/codecov-action@v1
           with:
             # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
             # file: ./coverage.xml # optional
