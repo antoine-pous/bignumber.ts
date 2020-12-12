@@ -24,8 +24,7 @@ jobs:
           yarn install
       - name: Run tests & coverage
         run: yarn coverage
-      - steps:
-        - name: Codecov upload
+      - name: Codecov upload
           uses: codecov/codecov-action@v1
           with:
             # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
