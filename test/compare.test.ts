@@ -38,4 +38,16 @@ suite('Compare', () => {
   test('858549847778787898789 is lower than 858549847878787898789', () => {
     expect(new BigNumber('858549847778787898789').compare('858549847878787898789')).to.be.equal(-1)
   })
+
+  test('-500 is lower than 100', () => {
+    expect(new BigNumber(lowNegate).compare(lowAbsolute)).to.be.equal(-1)
+  })
+
+  test('858549847878787898 is lower than 958549847878787898789', () => {
+    expect(new BigNumber('858549847878787898').compare('958549847878787898789')).to.be.equal(-1)
+  })
+
+  test('958549847878787898789 is lower than 858549847878787898', () => {
+    expect(new BigNumber('958549847878787898789').compare('858549847878787898')).to.be.equal(1)
+  })
 })
