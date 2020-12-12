@@ -18,6 +18,36 @@ export class BigNumber {
     return this
   }
 
+  public add(number: string | number | BigNumber) {
+    const toAdd: BigNumber = new BigNumber(number)
+    const tn: string[] = [...this._n].reverse()
+    const ta: string[] = [...toAdd._n].reverse()
+    const tr: number[] = []
+    const length: number = Math.max(tn.length, ta.length)
+    let remainder: boolean = false
+    for(let index = 0; index < length; index++) {
+      const _tn: number = parseInt(tn[index]) || 0
+      const _ta: number = parseInt(ta[index]) || 0
+      let _tr: number = _tn + _ta
+
+      if(remainder) {
+        _tr += 1
+        remainder = false
+      }
+
+      if(_tr >= 10) {
+        _tr = _tr % 10
+        remainder = true
+      }
+
+      tr[index] = _tr
+    }
+
+    const result: string = tr.reverse().join('')
+    this._n = remainder ? `1${result}` : result
+    return this
+  }
+
   public abs(): BigNumber {
     if(this._n.startsWith('-')) {
       this._n = this._n.slice(1, this._n.length)
