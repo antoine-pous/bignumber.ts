@@ -71,10 +71,6 @@ export class BigNumber {
   public compare(number: string | number | BigNumber): -1 | 0 | 1 {
     const toCompare: BigNumber = new BigNumber(number)
 
-    if(this._n === toCompare._n) {
-      return 0
-    }
-
     if(this.isNegative && !toCompare.isNegative) {
       return -1
     }
@@ -116,7 +112,7 @@ export class BigNumber {
       }
     }
 
-    throw Error('Something went wrong, comparison failed!')
+    return 0
   }
 
   public isHigherThan(n: number | string | BigNumber): boolean {
