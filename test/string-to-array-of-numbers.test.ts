@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {BigNumber} from "../../src";
+import {BigNumber} from "../src";
 
 suite('Convert string number to an array of int', () => {
   test('100 => [1,0,0]', () => {

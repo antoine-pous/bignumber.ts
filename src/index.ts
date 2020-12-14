@@ -48,9 +48,37 @@ export class BigNumber {
     return this
   }
 
-  public abs(): BigNumber {
-    if(this.asString.startsWith('-')) {
-      this.asString = this.asString.slice(1, this.asString.length)
+  public subtract(number: number | string | BigNumber): BigNumber {
+    const toSubtract: BigNumber = new BigNumber(number)
+    const willBeNegated: boolean = this.isLowerThan(toSubtract)
+    const arrNumber: number[] = this.isHigherThanOrEqual(toSubtract)
+      ? this.stringToArrayOfNumbers(this.asString).reverse()
+      : this.stringToArrayOfNumbers(toSubtract.asString).reverse()
+    const arrToSubtract: number[] = this.isHigherThanOrEqual(toSubtract)
+      ? this.stringToArrayOfNumbers(toSubtract.asString).reverse()
+      : this.stringToArrayOfNumbers(this.asString).reverse()
+    const arrResult: number[] = arrNumber
+    const length: number = arrNumber.length
+    let remainder: number = 0
+    for (let index = 0; index < length; index++) {
+      arrResult[index] -= (arrToSubtract[index] || 0) + remainder
+      arrResult[index] += (remainder = (arrNumber[index] < 0) ? 1 : 0) * 10;
+    }
+
+    let sliceIndex: number = 0
+    const sliceLength: number = length - 1
+    while (arrResult[sliceLength - sliceIndex] === 0 && sliceLength - sliceIndex > 0) {
+      sliceIndex++;
+    }
+
+    if(sliceIndex > 0) {
+      this.asString = arrResult.reverse().slice(sliceIndex, length).join('')
+    } else {
+      this.asString = arrResult.reverse().join('')
+    }
+
+    if(willBeNegated) {
+      this.isNegative = true
     }
     return this
   }
@@ -97,19 +125,19 @@ export class BigNumber {
           continue
         }
 
-        if (this.asString[index] < toCompare.asString[index]) {
+        if(this.asString[index] < toCompare.asString[index]) {
           return 1
         }
 
-        if (this.asString[index] > toCompare.asString[index]) {
+        if(this.asString[index] > toCompare.asString[index]) {
           return -1
         }
       } else {
-        if (this.asString[index] > toCompare.asString[index]) {
+        if(this.asString[index] > toCompare.asString[index]) {
           return 1
         }
 
-        if (this.asString[index] < toCompare.asString[index]) {
+        if(this.asString[index] < toCompare.asString[index]) {
           return -1
         }
       }
@@ -134,11 +162,14 @@ export class BigNumber {
     return [-1, 0].includes(this.compare(n))
   }
 
+  public stringToArrayOfNumbers(number: string): number[] {
+    return [...number].map((n: string) => parseInt(n))
+  }
+
   public result(): string {
-    if(this.isNegative) {
+    if (this.isNegative) {
       return `-${this.asString}`
     }
-
     return this.asString
   }
 }
