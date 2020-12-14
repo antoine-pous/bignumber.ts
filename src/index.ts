@@ -20,30 +20,30 @@ export class BigNumber {
 
   public add(number: string | number | BigNumber) {
     const toAdd: BigNumber = new BigNumber(number)
-    const tn: string[] = [...this.asString].reverse()
-    const ta: string[] = [...toAdd.asString].reverse()
-    const tr: number[] = []
-    const length: number = Math.max(tn.length, ta.length)
+    const arrNumber: string[] = [...this.asString].reverse()
+    const arrToAdd: string[] = [...toAdd.asString].reverse()
+    const arrResult: number[] = []
+    const length: number = Math.max(arrNumber.length, arrToAdd.length)
     let remainder: boolean = false
     for(let index = 0; index < length; index++) {
-      const _tn: number = parseInt(tn[index]) || 0
-      const _ta: number = parseInt(ta[index]) || 0
-      let _tr: number = _tn + _ta
+      const tmpNumber: number = parseInt(arrNumber[index]) || 0
+      const tmpToAdd: number = parseInt(arrToAdd[index]) || 0
+      let tmpResult: number = tmpNumber + tmpToAdd
 
       if(remainder) {
-        _tr += 1
+        tmpResult += 1
         remainder = false
       }
 
-      if(_tr >= 10) {
-        _tr = _tr % 10
+      if(tmpResult >= 10) {
+        tmpResult = tmpResult % 10
         remainder = true
       }
 
-      tr[index] = _tr
+      arrResult[index] = tmpResult
     }
 
-    const result: string = tr.reverse().join('')
+    const result: string = arrResult.reverse().join('')
     this.asString = remainder ? `1${result}` : result
     return this
   }
