@@ -1,27 +1,27 @@
 export class BigNumber {
 
-  protected _n: string
+  protected asString: string
 
   protected isNegative: boolean
 
   constructor(readonly number: string | number | BigNumber) {
     if(number instanceof BigNumber) {
-      this._n = number._n
+      this.asString = number.asString
       this.number = number.number
       this.isNegative = number.isNegative
       return this
     }
 
     const _number: string = typeof number === 'string' ? number : number.toString()
-    this._n = _number
+    this.asString = _number
     this.isNegative = _number.startsWith('-')
     return this
   }
 
   public add(number: string | number | BigNumber) {
     const toAdd: BigNumber = new BigNumber(number)
-    const tn: string[] = [...this._n].reverse()
-    const ta: string[] = [...toAdd._n].reverse()
+    const tn: string[] = [...this.asString].reverse()
+    const ta: string[] = [...toAdd.asString].reverse()
     const tr: number[] = []
     const length: number = Math.max(tn.length, ta.length)
     let remainder: boolean = false
@@ -44,27 +44,27 @@ export class BigNumber {
     }
 
     const result: string = tr.reverse().join('')
-    this._n = remainder ? `1${result}` : result
+    this.asString = remainder ? `1${result}` : result
     return this
   }
 
   public abs(): BigNumber {
-    if(this._n.startsWith('-')) {
-      this._n = this._n.slice(1, this._n.length)
+    if(this.asString.startsWith('-')) {
+      this.asString = this.asString.slice(1, this.asString.length)
     }
     return this
   }
 
   public negate(): BigNumber {
-    if(!this._n.startsWith('-')) {
-      this._n = `-${this._n}`
+    if(!this.asString.startsWith('-')) {
+      this.asString = `-${this.asString}`
     }
     return this
   }
 
   public trunc(): BigNumber {
-    const parts: string[] = this._n.split('.')
-    this._n = parts[0]
+    const parts: string[] = this.asString.split('.')
+    this.asString = parts[0]
     return this
   }
 
@@ -79,34 +79,34 @@ export class BigNumber {
       return 1
     }
 
-    if(this._n.length < toCompare._n.length) {
+    if(this.asString.length < toCompare.asString.length) {
       return -1
     }
 
-    if(this._n.length > toCompare._n.length) {
+    if(this.asString.length > toCompare.asString.length) {
       return 1
     }
 
-    for(let index = 0; index < this._n.length; index++) {
+    for(let index = 0; index < this.asString.length; index++) {
 
       if(this.isNegative) {
-        if(this._n[index] === '-') {
+        if(this.asString[index] === '-') {
           continue
         }
 
-        if (this._n[index] < toCompare._n[index]) {
+        if (this.asString[index] < toCompare.asString[index]) {
           return 1
         }
 
-        if (this._n[index] > toCompare._n[index]) {
+        if (this.asString[index] > toCompare.asString[index]) {
           return -1
         }
       } else {
-        if (this._n[index] > toCompare._n[index]) {
+        if (this.asString[index] > toCompare.asString[index]) {
           return 1
         }
 
-        if (this._n[index] < toCompare._n[index]) {
+        if (this.asString[index] < toCompare.asString[index]) {
           return -1
         }
       }
@@ -132,6 +132,6 @@ export class BigNumber {
   }
 
   public result(): string {
-    return this._n
+    return this.asString
   }
 }
