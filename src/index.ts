@@ -13,8 +13,8 @@ export class BigNumber {
     }
 
     const _number: string = typeof number === 'string' ? number : number.toString()
-    this.asString = _number
     this.isNegative = _number.startsWith('-')
+    this.asString = _number.replace('-','')
     return this
   }
 
@@ -55,10 +55,13 @@ export class BigNumber {
     return this
   }
 
+  public abs(): BigNumber {
+    this.isNegative = false
+    return this
+  }
+
   public negate(): BigNumber {
-    if(!this.asString.startsWith('-')) {
-      this.asString = `-${this.asString}`
-    }
+    this.isNegative = true
     return this
   }
 
@@ -132,6 +135,10 @@ export class BigNumber {
   }
 
   public result(): string {
+    if(this.isNegative) {
+      return `-${this.asString}`
+    }
+
     return this.asString
   }
 }
